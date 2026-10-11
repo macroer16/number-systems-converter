@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Number Systems Converter: binary, hex, two's complement and IEEE 754</title>
+<meta name="description" content="Convert between binary, octal, decimal and hex with the working shown, see two's complement, and explore IEEE 754 floating point bit by bit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <h1>How computers store numbers</h1>
+    <p>Convert between number bases, see how negative numbers and decimals are stored in bits, and flip individual bits to see what changes.</p>
+    <nav aria-label="Sections">
+      <a href="#bases">Bases</a>
+      <a href="#twos">Two's complement</a>
+      <a href="#ieee">IEEE 754 floating point</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Bases -->
+  <section id="bases" class="tool" aria-labelledby="bases-title">
+    <h2 id="bases-title">Number bases</h2>
+    <p class="lead">Type in any box and the others update. Prefixes like 0b and 0x, spaces and underscores are fine.</p>
+    <div class="base-grid">
+      <label>Binary (base 2)<input data-base="2" inputmode="numeric" autocomplete="off" spellcheck="false"></label>
+      <label>Octal (base 8)<input data-base="8" inputmode="numeric" autocomplete="off" spellcheck="false"></label>
+      <label>Decimal (base 10)<input data-base="10" inputmode="numeric" autocomplete="off" spellcheck="false"></label>
+      <label>Hexadecimal (base 16)<input data-base="16" autocomplete="off" spellcheck="false"></label>
+    </div>
+    <p id="base-error" class="error" role="alert" hidden></p>
+    <details id="base-steps" class="working">
+      <summary>Show the working (decimal to binary by repeated division)</summary>
+      <div id="steps-body"></div>
+    </details>
+  </section>
+
+  <!-- Two's complement -->
+  <section id="twos" class="tool" aria-labelledby="twos-title">
+    <h2 id="twos-title">Two's complement (negative numbers)</h2>
+    <p class="lead">Computers store signed whole numbers in two's complement. The left bit has a negative weight, so 1111 1111 in 8 bits is −1.</p>
+    <div class="row">
+      <label>Number<input id="twos-value" value="-5" inputmode="numeric" autocomplete="off"></label>
+      <label>Bits
+        <select id="twos-width">
+          <option>8</option><option>16</option><option>32</option><option>64</option>
+        </select>
+      </label>
+    </div>
+    <p id="twos-error" class="error" role="alert" hidden></p>
+    <div id="twos-bits" class="bitrow" aria-live="polite"></div>
+    <p id="twos-note" class="note"></p>
+    <details class="working">
+      <summary>How to work it out by hand</summary>
+      <ol>
+        <li>Write the positive number in binary using all the bits, e.g. 5 = 0000 0101.</li>
+        <li>Flip every bit: 1111 1010.</li>
+        <li>Add 1: 1111 1011. That's −5.</li>
+      </ol>
+      <p>To read one back, if the left bit is 1, the value is the unsigned number minus 2<sup>bits</sup>. For example, 1111 1011 = 251 − 256 = −5.</p>
+    </details>
+  </section>
+
+  <!-- IEEE 754 -->
+  <section id="ieee" class="tool" aria-labelledby="ieee-title">
+    <h2 id="ieee-title">IEEE 754 floating point (decimals)</h2>
+    <p class="lead">Decimals are stored as a sign, an exponent and a mantissa. Type a number, or <strong>click any bit</strong> to flip it.</p>
+    <div class="row">
+      <label>Decimal number<input id="fp-input" value="0.1" autocomplete="off" spellcheck="false"></label>
+      <label>Format
+        <select id="fp-width">
+          <option value="32">32-bit single (float)</option>
+          <option value="64">64-bit double</option>
+        </select>
+      </label>
+      <label>Or hex<input id="fp-hex" autocomplete="off" spellcheck="false"></label>
+    </div>
+    <p id="fp-error" class="error" role="alert" hidden></p>
+
+    <div class="legend" aria-hidden="true">
+      <span class="key key-sign">Sign</span>
+      <span class="key key-exp">Exponent</span>
+      <span class="key key-man">Mantissa (fraction)</span>
+    </div>
+    <div id="fp-bits" class="bitrow fp" role="group" aria-label="Bits, click to flip"></div>
+
+    <dl id="fp-explain" class="explain"></dl>
+    <div id="fp-precision" class="precision" aria-live="polite"></div>
+  </section>
+</main>
+
+<footer class="wrap site-footer">
+  Built by <a href="https://macroer16.github.io/victor-cloud-portfolio/">Victor Benson</a>, BSc Computer Science, University of Westminster.
+  <a href="https://github.com/macroer16/number-systems-converter">Source code on GitHub</a>.
+</footer>
+
+<script type="module" src="src/app.js"></script>
+</body>
+</html>
